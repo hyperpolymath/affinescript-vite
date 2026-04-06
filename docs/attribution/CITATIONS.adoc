@@ -1,34 +1,34 @@
-= {{PROJECT_NAME}} - Citation Guide
+= AffineScript-Vite - Citation Guide
 :toc:
 
 == BibTeX
 
 [source,bibtex]
 ----
-@software{{{PROJECT_NAME}}_{{CURRENT_YEAR}},
+@software{AffineScript-Vite_{{CURRENT_YEAR}},
   author = {{{AUTHOR_LAST}}, {{AUTHOR_FIRST}}},
-  title = {{{PROJECT_NAME}}},
+  title = {AffineScript-Vite},
   year = {{{CURRENT_YEAR}}},
-  url = {https://github.com/{{OWNER}}/{{PROJECT_NAME}}},
+  url = {https://github.com/hyperpolymath/AffineScript-Vite},
   license = {PMPL-1.0-or-later}
 }
 ----
 
 == Harvard Style
 
-{{AUTHOR_LAST}}, {{AUTHOR_INITIALS}} ({{CURRENT_YEAR}}) _{{PROJECT_NAME}}_ [Computer software]. Available at: https://github.com/{{OWNER}}/{{PROJECT_NAME}}
+{{AUTHOR_LAST}}, {{AUTHOR_INITIALS}} ({{CURRENT_YEAR}}) _AffineScript-Vite_ [Computer software]. Available at: https://github.com/hyperpolymath/AffineScript-Vite
 
 == OSCOLA
 
-{{AUTHOR}}, '{{PROJECT_NAME}}' ({{CURRENT_YEAR}}) <https://github.com/{{OWNER}}/{{PROJECT_NAME}}>
+hyperpolymath, 'AffineScript-Vite' ({{CURRENT_YEAR}}) <https://github.com/hyperpolymath/AffineScript-Vite>
 
 == MLA
 
-{{AUTHOR_LAST}}, {{AUTHOR_FIRST}} "{{PROJECT_NAME}}." {{CURRENT_YEAR}}, github.com/{{OWNER}}/{{PROJECT_NAME}}.
+{{AUTHOR_LAST}}, {{AUTHOR_FIRST}} "AffineScript-Vite." {{CURRENT_YEAR}}, github.com/hyperpolymath/AffineScript-Vite.
 
 == APA 7
 
-{{AUTHOR_LAST}}, {{AUTHOR_INITIALS}} ({{CURRENT_YEAR}}). _{{PROJECT_NAME}}_ [Computer software]. GitHub. https://github.com/{{OWNER}}/{{PROJECT_NAME}}
+{{AUTHOR_LAST}}, {{AUTHOR_INITIALS}} ({{CURRENT_YEAR}}). _AffineScript-Vite_ [Computer software]. GitHub. https://github.com/hyperpolymath/AffineScript-Vite
 
 == See Also
 

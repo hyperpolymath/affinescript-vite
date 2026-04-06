@@ -19,9 +19,9 @@ set positional-arguments := true
 import? "contractile.just"
 
 # Project metadata — customize these
-project := "rsr-template-repo"
+project := "affinescript-vite"
 OWNER := "hyperpolymath"
-REPO := "rsr-template-repo"
+REPO := "affinescript-vite"
 version := "0.1.0"
 tier := "infrastructure"  # 1 | 2 | infrastructure
 
@@ -48,7 +48,7 @@ help recipe="":
 
 # Show this project's info
 info:
-    @echo "Project: {{project}}"
+    @echo "Project: affinescript-vite"
     @echo "Version: {{version}}"
     @echo "RSR Tier: {{tier}}"
     @echo "Recipes: $(just --summary | wc -w)"
@@ -670,7 +670,7 @@ verify:
 
 # Build the project (debug mode)
 build *args:
-    @echo "Building {{project}} (debug)..."
+    @echo "Building affinescript-vite (debug)..."
     # TODO: Replace with your build command
     # Examples:
     #   cargo build {{args}}                    # Rust
@@ -681,7 +681,7 @@ build *args:
 
 # Build in release mode with optimizations
 build-release *args:
-    @echo "Building {{project}} (release)..."
+    @echo "Building affinescript-vite (release)..."
     # TODO: Replace with your release build command
     # Examples:
     #   cargo build --release {{args}}
@@ -856,7 +856,7 @@ run-verbose *args: build
 
 # Install to user path
 install: build-release
-    @echo "Installing {{project}}..."
+    @echo "Installing affinescript-vite..."
     # TODO: Replace with your install command
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -900,7 +900,7 @@ cookbook:
     #!/usr/bin/env bash
     mkdir -p docs
     OUTPUT="docs/just-cookbook.adoc"
-    echo "= {{project}} Justfile Cookbook" > "$OUTPUT"
+    echo "= affinescript-vite Justfile Cookbook" > "$OUTPUT"
     echo ":toc: left" >> "$OUTPUT"
     echo ":toclevels: 3" >> "$OUTPUT"
     echo "" >> "$OUTPUT"
@@ -926,10 +926,10 @@ cookbook:
 man:
     #!/usr/bin/env bash
     mkdir -p docs/man
-    cat > docs/man/{{project}}.1 << EOF
-    .TH {{project}} 1 "$(date +%Y-%m-%d)" "{{version}}" "{{project}} Manual"
+    cat > docs/man/affinescript-vite.1 << EOF
+    .TH affinescript-vite 1 "$(date +%Y-%m-%d)" "{{version}}" "affinescript-vite Manual"
     .SH NAME
-    {{project}} \- RSR-compliant project
+    affinescript-vite \- RSR-compliant project
     .SH SYNOPSIS
     .B just
     [recipe] [args...]
@@ -938,7 +938,7 @@ man:
     .SH AUTHOR
     $(git config user.name 2>/dev/null || echo "Author") <$(git config user.email 2>/dev/null || echo "email")>
     EOF
-    echo "Generated: docs/man/{{project}}.1"
+    echo "Generated: docs/man/affinescript-vite.1"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # CONTAINERS (stapeln ecosystem — Podman + Chainguard Wolfi)
@@ -968,14 +968,14 @@ container-init:
     fi
 
     # Prompt for container-specific values
-    read -rp "Service name (e.g. my-api) [{{project}}]: " _SERVICE_NAME
-    SERVICE_NAME="${_SERVICE_NAME:-{{project}}}"
+    read -rp "Service name (e.g. my-api) [affinescript-vite]: " _SERVICE_NAME
+    SERVICE_NAME="${_SERVICE_NAME:-affinescript-vite}"
 
     read -rp "Primary port [8080]: " _PORT
     PORT="${_PORT:-8080}"
 
-    read -rp "Container registry [ghcr.io/${OWNER:-{{OWNER}}}]: " _REGISTRY
-    REGISTRY="${_REGISTRY:-ghcr.io/${OWNER:-{{OWNER}}}}"
+    read -rp "Container registry [ghcr.io/${OWNER:-hyperpolymath}]: " _REGISTRY
+    REGISTRY="${_REGISTRY:-ghcr.io/${OWNER:-hyperpolymath}}"
 
     echo ""
     echo "  Service: $SERVICE_NAME"
@@ -1018,9 +1018,9 @@ container-build *args:
     if [ -f "container/ct-build.sh" ]; then
         cd container && ./ct-build.sh {{args}}
     elif [ -f "container/Containerfile" ]; then
-        podman build -t {{project}}:latest -f container/Containerfile .
+        podman build -t affinescript-vite:latest -f container/Containerfile .
     elif [ -f "Containerfile" ]; then
-        podman build -t {{project}}:latest -f Containerfile .
+        podman build -t affinescript-vite:latest -f Containerfile .
     else
         echo "No Containerfile found in container/ or project root"
         exit 1
@@ -1082,12 +1082,12 @@ container-push:
         cd container && ./ct-build.sh --push
     else
         echo "No container/ct-build.sh found — falling back to podman push"
-        podman push {{project}}:latest
+        podman push affinescript-vite:latest
     fi
 
 # Run container interactively (for debugging)
 container-run *args:
-    podman run --rm -it {{project}}:latest {{args}}
+    podman run --rm -it affinescript-vite:latest {{args}}
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # CI & AUTOMATION
@@ -1305,7 +1305,7 @@ test-matrix suite="unit" verbosity="normal" parallel="true":
     @echo "Test matrix: suite={{suite}} verbosity={{verbosity}} parallel={{parallel}}"
 
 # Container matrix: [build|run|push|shell|scan] x [registry] x [tag]
-container-matrix action="build" registry="ghcr.io/{{OWNER}}" tag="latest":
+container-matrix action="build" registry="ghcr.io/hyperpolymath" tag="latest":
     @echo "Container matrix: action={{action}} registry={{registry}} tag={{tag}}"
 
 # CI matrix: [lint|test|build|security|all] x [quick|full]

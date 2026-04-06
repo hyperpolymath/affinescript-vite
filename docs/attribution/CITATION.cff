@@ -4,11 +4,11 @@ authors:
 - family-names: "{{AUTHOR_LAST}}"
   given-names: "{{AUTHOR_FIRST}}"
   orcid: "https://orcid.org/0000-0000-0000-0000" # Placeholder
-title: "{{PROJECT_NAME}}"
+title: "AffineScript-Vite"
 version: 0.1.0
 date-released: {{CURRENT_DATE}}
-url: "https://{{FORGE}}/{{OWNER}}/{{REPO}}"
-repository-code: "https://{{FORGE}}/{{OWNER}}/{{REPO}}"
+url: "https://github.com/hyperpolymath/affinescript-vite"
+repository-code: "https://github.com/hyperpolymath/affinescript-vite"
 license: PMPL-1.0-or-later
 keywords:
   - "rsr"

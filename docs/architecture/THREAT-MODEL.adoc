@@ -1,17 +1,17 @@
 = Threat Model
 <!-- SPDX-License-Identifier: PMPL-1.0-or-later -->
-<!-- Copyright (c) {{CURRENT_YEAR}} {{AUTHOR}} ({{OWNER}}) <{{AUTHOR_EMAIL}}> -->
+<!-- Copyright (c) {{CURRENT_YEAR}} hyperpolymath (hyperpolymath) <j.d.a.jewell@open.ac.uk> -->
 
-# Threat Model: {{PROJECT_NAME}}
+# Threat Model: AffineScript-Vite
 
 ## Document Info
 
 | Field         | Value                          |
 |---------------|--------------------------------|
-| Project       | {{PROJECT_NAME}}               |
+| Project       | AffineScript-Vite               |
 | Version       | 1.0                            |
 | Last Reviewed | {{DATE}}                       |
-| Author        | {{AUTHOR}}                     |
+| Author        | hyperpolymath                     |
 | Methodology   | STRIDE                         |
 
 ## Scope
@@ -34,7 +34,7 @@
 
 ## System Overview
 
-Brief description of {{PROJECT_NAME}} and its architecture.
+Brief description of AffineScript-Vite and its architecture.
 
 > See [STATE-VISUALIZER.adoc](../STATE-VISUALIZER.adoc) for the full architecture diagram and completion dashboard.
 

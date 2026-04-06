@@ -119,15 +119,15 @@ find "$TEST_REPO_PATH" -type f \
     -exec bash -c '
         file="$1"
         placeholder_pairs=(
-            "{{REPO}}|$TEST_REPO_NAME"
-            "{{OWNER}}|$TEST_OWNER"
-            "{{FORGE}}|$TEST_FORGE"
+            "affinescript-vite|$TEST_REPO_NAME"
+            "hyperpolymath|$TEST_OWNER"
+            "github.com|$TEST_FORGE"
             "{{PROJECT}}|$TEST_PROJECT_NAME"
-            "{{project}}|'"${TEST_REPO_NAME//-/_}"'"
+            "affinescript-vite|'"${TEST_REPO_NAME//-/_}"'"
             "{{REPO_DESCRIPTION}}|$TEST_DESCRIPTION"
             "{{PRIMARY_LANGUAGE}}|$TEST_PRIMARY_LANGUAGE"
-            "{{AUTHOR}}|$TEST_AUTHOR"
-            "{{AUTHOR_EMAIL}}|$TEST_AUTHOR_EMAIL"
+            "hyperpolymath|$TEST_AUTHOR"
+            "j.d.a.jewell@open.ac.uk|$TEST_AUTHOR_EMAIL"
             "{{CURRENT_DATE}}|2026-04-04"
         )
 
