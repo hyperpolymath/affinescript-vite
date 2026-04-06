@@ -23,7 +23,7 @@
   "author": "hyperpolymath",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "vite": "^6.0.0"
+    "vite": "^8.0.5"
   },
   "engines": {
     "deno": ">=2.0.0"
