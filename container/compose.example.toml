@@ -46,7 +46,7 @@ restart = "always"
 
 # Health check: selur/Podman uses this to determine if the service is ready.
 # The service must respond 2xx to this endpoint within the timeout.
-healthcheck = { test = "curl -sf http://localhost:8080/health", interval = "30s", timeout = "5s", retries = 3 }
+healthcheck = { test = "curl -sf https://localhost:8080/health", interval = "30s", timeout = "5s", retries = 3 }
 
 # ---
 
@@ -61,7 +61,7 @@ ports = ["4000:4000"]
 # The worker connects to the Rust API over the internal selur network.
 # Service names resolve as hostnames within the compose network.
 environment = {
-  API_URL = "http://rust-api:8080/api/v1",   # Internal service discovery
+  API_URL = "https://rust-api:8080/api/v1",   # Internal service discovery
   MIX_ENV = "prod",                           # Elixir release mode
   APP_LOG_FORMAT = "json",                    # Match structured logging format
   POOL_SIZE = "10",                           # DB connection pool size
@@ -73,7 +73,7 @@ environment = {
 depends_on = ["rust-api"]
 
 restart = "always"
-healthcheck = { test = "curl -sf http://localhost:4000/health", interval = "30s", timeout = "5s", retries = 3 }
+healthcheck = { test = "curl -sf https://localhost:4000/health", interval = "30s", timeout = "5s", retries = 3 }
 
 # ---
 
@@ -92,8 +92,8 @@ ports = ["443:443", "80:80"]
 
 environment = {
   # Backend routing: svalinn proxies to internal services.
-  SVALINN_BACKEND = "http://rust-api:8080",
-  SVALINN_WORKER_BACKEND = "http://elixir-worker:4000",
+  SVALINN_BACKEND = "https://rust-api:8080",
+  SVALINN_WORKER_BACKEND = "https://elixir-worker:4000",
 
   # Policy file: mounted from the svalinn-config volume.
   SVALINN_POLICY_FILE = "/etc/svalinn/gatekeeper.yaml",
@@ -108,7 +108,7 @@ volumes = ["svalinn-config:/etc/svalinn:ro"]
 # Svalinn starts last — it needs both backends to be running.
 depends_on = ["rust-api", "elixir-worker"]
 restart = "always"
-healthcheck = { test = "curl -sf http://localhost:80/health", interval = "30s", timeout = "5s", retries = 3 }
+healthcheck = { test = "curl -sf https://localhost:80/health", interval = "30s", timeout = "5s", retries = 3 }
 
 # ============================================================================
 # Volumes

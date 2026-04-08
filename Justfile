@@ -16,7 +16,7 @@ set positional-arguments := true
 
 # Import auto-generated contractile recipes (must-check, trust-verify, etc.)
 # Re-generate with: contractile gen-just
-import? "contractile.just"
+import? ".machine_readable/contractiles/contractile.just"
 
 # Project metadata — customize these
 project := "affinescript-vite"
@@ -51,8 +51,8 @@ info:
     @echo "Project: affinescript-vite"
     @echo "Version: {{version}}"
     @echo "RSR Tier: {{tier}}"
-    @echo "Recipes: $(just --summary | wc -w)"
-    @[ -f ".machine_readable/STATE.a2ml" ] && grep -oP 'phase\s*=\s*"\K[^"]+' .machine_readable/STATE.a2ml | head -1 | xargs -I{} echo "Phase: {}" || true
+    @echo "Recipes: "$(just --summary | wc -w)""
+    @[ -f ".machine_readable/STATE.a2ml" ] && grep -oP 'phase\s*=\s*"\K[^"]+' .machine_readable/STATE.a2ml | head -1 | xargs -I{} printf "Phase: %s\n" "{}" || true
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # INIT — Bootstrap a new project from this template
@@ -73,7 +73,7 @@ init:
     # Format: OWNER=myorg  AUTHOR="My Name"  AUTHOR_EMAIL=me@example.org ...
     DEFAULTS="${XDG_CONFIG_HOME:-$HOME/.config}/rsr/defaults"
     if [ -f "$DEFAULTS" ]; then
-        echo "Loading defaults from $DEFAULTS"
+        echo "Loading defaults from "$DEFAULTS""
         # shellcheck source=/dev/null
         source "$DEFAULTS"
         echo ""
@@ -141,8 +141,8 @@ init:
     # --- Derived values ---
     PROJECT_UPPER=$(echo "$REPO" | tr '[:lower:]-' '[:upper:]_')
     PROJECT_LOWER=$(echo "$REPO" | tr '[:upper:]-' '[:lower:]_')
-    CURRENT_YEAR=$(date +%Y)
-    CURRENT_DATE=$(date +%Y-%m-%d)
+    CURRENT_YEAR="$(date +%Y)"
+    CURRENT_DATE="$(date +%Y-%m-%d)"
     VERSION="0.1.0"
 
     # Derive citation name parts (best-effort split on last space)
@@ -157,13 +157,13 @@ init:
 
     echo ""
     echo "── Summary ──────────────────────────────────────"
-    echo "  Project:     $PROJECT_NAME"
-    echo "  Repo:        $REPO"
-    echo "  Owner:       $OWNER"
-    echo "  Author:      $AUTHOR <$AUTHOR_EMAIL>"
-    [ -n "$AUTHOR_ORG" ] && echo "  Organization: $AUTHOR_ORG"
-    echo "  Forge:       $FORGE"
-    echo "  Year:        $CURRENT_YEAR"
+    echo "  Project:     "$PROJECT_NAME""
+    echo "  Repo:        "$REPO""
+    echo "  Owner:       "$OWNER""
+    echo "  Author:      "$AUTHOR" <"$AUTHOR_EMAIL">"
+    [ -n "$AUTHOR_ORG" ] && echo "  Organization: "$AUTHOR_ORG""
+    echo "  Forge:       "$FORGE""
+    echo "  Year:        "$CURRENT_YEAR""
     echo "────────────────────────────────────────────────"
     echo ""
     read -rp "Proceed? [Y/n] " CONFIRM
@@ -173,18 +173,18 @@ init:
     echo "Replacing placeholders..."
 
     # Brace tokens as variables (hex avoids just interpolation)
-    LB=$(printf '\x7b\x7b')
-    RB=$(printf '\x7d\x7d')
+    LB="{{"
+    RB="}}"
 
     # Build the sed expression list
     # Note: using | as delimiter since URLs contain /
     SED_ARGS=(
-        -e "s|${LB}PROJECT_NAME${RB}|${PROJECT_NAME}|g"
+        -e "s|${LB}PROJECT_NAME${RB}|"${PROJECT_NAME}"|g"
         -e "s|${LB}PROJECT_DESCRIPTION${RB}|${PROJECT_DESCRIPTION}|g"
         -e "s|${LB}PROJECT${RB}|${PROJECT_UPPER}|g"
         -e "s|${LB}project${RB}|${PROJECT_LOWER}|g"
         -e "s|${LB}REPO${RB}|${REPO}|g"
-        -e "s|${LB}OWNER${RB}|${OWNER}|g"
+        -e "s|${LB}OWNER${RB}|"${OWNER}"|g"
         -e "s|${LB}AUTHOR${RB}|${AUTHOR}|g"
         -e "s|${LB}AUTHOR_EMAIL${RB}|${AUTHOR_EMAIL}|g"
         -e "s|${LB}AUTHOR_ORG${RB}|${AUTHOR_ORG}|g"
@@ -227,8 +227,8 @@ init:
     done
 
     # Also replace [YOUR-REPO-NAME] and [YOUR-NAME/ORG] in AI manifest
-    sed -i "s|\[YOUR-REPO-NAME\]|${PROJECT_NAME}|g" 0-AI-MANIFEST.a2ml 2>/dev/null || true
-    sed -i "s|\[YOUR-NAME/ORG\]|${OWNER}|g" 0-AI-MANIFEST.a2ml 2>/dev/null || true
+    sed -i "s|\[YOUR-REPO-NAME\]|"${PROJECT_NAME}"|g" 0-AI-MANIFEST.a2ml 2>/dev/null || true
+    sed -i "s|\[YOUR-NAME/ORG\]|"${OWNER}"|g" 0-AI-MANIFEST.a2ml 2>/dev/null || true
 
     echo ""
     echo "── Validation ───────────────────────────────────"
@@ -298,7 +298,7 @@ groove-setup:
     read -rp "  SSE (Server-Sent Events)? [y/N]: " SSE
 
     # Update port in manifest
-    sed -i "s/(port 0)/(port ${PORT})/" "$MANIFEST"
+    sed -i "s/(port 0)/(port "${PORT}")/" "$MANIFEST"
 
     # Update API surface flags
     [[ "${GRPC,,}" == "y" ]] && sed -i 's/(grpc.*enabled false)/(grpc    (enabled true)/' "$MANIFEST"
@@ -307,8 +307,8 @@ groove-setup:
     [[ "${SSE,,}" == "y" ]] && sed -i 's/(sse.*enabled false)/(sse     (enabled true)/' "$MANIFEST"
 
     echo ""
-    echo "Groove manifest updated: $MANIFEST"
-    echo "Port ${PORT} assigned. Add to PORT-REGISTRY.md if not already there."
+    echo "Groove manifest updated: "$MANIFEST""
+    echo "Port "${PORT}" assigned". Add to PORT-REGISTRY.md if not already there."
 
 # Check for template placeholders that haven't been replaced
 verify-template:
@@ -428,14 +428,14 @@ gen-v-connector:
         return none
     }
     
-    // TODO: Add endpoint-specific methods for your API
+    // PENDING: Add endpoint-specific methods for your API
     // REST=${REST} gRPC=${GRPC} GraphQL=${GRAPHQL}
     VEOF
 
     echo "Generated: ${OUTDIR}/src/main.v"
-    echo "  Service: ${SERVICE}"
-    echo "  Port: ${PORT}"
-    echo "  REST: ${REST}, gRPC: ${GRPC}, GraphQL: ${GRAPHQL}"
+    echo "  Service: "${SERVICE}""
+    echo "  Port: "${PORT}""
+    echo "  REST: "${REST}", gRPC: "${GRPC}", GraphQL: "${GRAPHQL}""
     echo ""
     echo "Next: add endpoint methods to ${OUTDIR}/src/main.v"
     echo "Then copy to developer-ecosystem/v-ecosystem/connectors/"
@@ -481,9 +481,9 @@ self-assess:
 
     for f in LICENSE SECURITY.md CODE_OF_CONDUCT.md CONTRIBUTING.md .editorconfig .gitignore; do
         if [ -f "$f" ]; then
-            echo "  ✓ $f — KEEP (RSR required)"
+            echo "  ✓ "$f" — KEEP" (RSR required)"
         else
-            echo "  ✗ $f — MISSING (RSR violation!)"
+            echo "  ✗ "$f" — MISSING" (RSR violation!)"
         fi
     done
 
@@ -619,10 +619,10 @@ verify:
 
     check_file() {
         if [ ! -f "$1" ]; then
-            echo "  FAIL: $1 missing"
+            echo "  FAIL: "$1" missing"
             ERRORS=$((ERRORS + 1))
         else
-            echo "  OK:   $1"
+            echo "  OK:   "$1""
         fi
     }
 
@@ -635,7 +635,7 @@ verify:
             local found="$1"
             [ -f "$2" ] && found="$2"
             [ -f "$1" ] && found="$1"
-            echo "  OK:   $found"
+            echo "  OK:   "$found""
         fi
     }
 
@@ -659,7 +659,7 @@ verify:
 
     echo ""
     if [ "$ERRORS" -gt 0 ]; then
-        echo "FAIL: $ERRORS OpenSSF prerequisites missing — repo cannot ship."
+        echo "FAIL: "$ERRORS" OpenSSF" prerequisites missing — repo cannot ship."
         exit 1
     fi
     echo "PASS: All OpenSSF Best Practices prerequisites satisfied."
@@ -671,7 +671,7 @@ verify:
 # Build the project (debug mode)
 build *args:
     @echo "Building affinescript-vite (debug)..."
-    # TODO: Replace with your build command
+    # PENDING: Replace with your build command
     # Examples:
     #   cargo build {{args}}                    # Rust
     #   mix compile {{args}}                    # Elixir
@@ -682,7 +682,7 @@ build *args:
 # Build in release mode with optimizations
 build-release *args:
     @echo "Building affinescript-vite (release)..."
-    # TODO: Replace with your release build command
+    # PENDING: Replace with your release build command
     # Examples:
     #   cargo build --release {{args}}
     #   MIX_ENV=prod mix compile {{args}}
@@ -692,7 +692,7 @@ build-release *args:
 # Build and watch for changes (requires entr or similar)
 build-watch:
     @echo "Watching for changes..."
-    # TODO: Customize file patterns for your language
+    # PENDING: Customize file patterns for your language
     # Examples:
     #   find src -name '*.rs' | entr -c just build
     #   mix compile --force --warnings-as-errors
@@ -701,7 +701,7 @@ build-watch:
 # Clean build artifacts [reversible: rebuild with `just build`]
 clean:
     @echo "Cleaning..."
-    # TODO: Customize for your build system
+    # PENDING: Customize for your build system
     rm -rf target/ _build/ build/ dist/ out/ obj/ bin/
 
 # Deep clean including caches [reversible: rebuild]
@@ -715,7 +715,7 @@ clean-all: clean
 # Run all tests
 test *args:
     @echo "Running tests..."
-    # TODO: Replace with your test command
+    # PENDING: Replace with your test command
     # Examples:
     #   cargo test {{args}}
     #   mix test {{args}}
@@ -726,17 +726,17 @@ test *args:
 # Run tests with verbose output
 test-verbose:
     @echo "Running tests (verbose)..."
-    # TODO: Replace with verbose test command
+    # PENDING: Replace with verbose test command
 
 # Smoke test
 test-smoke:
     @echo "Smoke test..."
-    # TODO: Add basic sanity checks
+    # PENDING: Add basic sanity checks
 
 # Run end-to-end tests (full pipeline: build → run → verify)
 e2e:
     @echo "Running E2E tests..."
-    # TODO: Replace with your E2E test command. Examples:
+    # PENDING: Replace with your E2E test command. Examples:
     #   bash tests/e2e.sh                    # Shell-based E2E
     #   npx playwright test                  # Browser E2E
     #   mix test test/integration/e2e_test.exs  # Elixir E2E
@@ -746,7 +746,7 @@ e2e:
 # Run aspect tests (cross-cutting concern validation)
 aspect:
     @echo "Running aspect tests..."
-    # TODO: Replace with your aspect test command. Examples:
+    # PENDING: Replace with your aspect test command. Examples:
     #   bash tests/aspect_tests.sh           # Shell-based aspect tests
     #   cargo test --test aspects             # Rust aspect tests
     # Aspect tests validate architectural invariants:
@@ -759,7 +759,7 @@ aspect:
 # Run benchmarks (performance regression detection)
 bench:
     @echo "Running benchmarks..."
-    # TODO: Replace with your benchmark command. Examples:
+    # PENDING: Replace with your benchmark command. Examples:
     #   cargo bench                           # Rust criterion
     #   zig build bench                       # Zig benchmarks
     #   mix run bench/benchmarks.exs          # Elixir benchee
@@ -769,7 +769,7 @@ bench:
 # Run readiness tests (Component Readiness Grade: D/C/B)
 readiness:
     @echo "Running readiness tests..."
-    # TODO: Replace with your readiness test command. Examples:
+    # PENDING: Replace with your readiness test command. Examples:
     #   cargo test --test readiness -- --nocapture
     @echo "Readiness tests complete!"
 
@@ -815,7 +815,7 @@ fix: fmt
 # Format all source files [reversible: git checkout]
 fmt:
     @echo "Formatting source files..."
-    # TODO: Replace with your formatter
+    # PENDING: Replace with your formatter
     # Examples:
     #   cargo fmt
     #   mix format
@@ -825,7 +825,7 @@ fmt:
 # Check formatting without changes
 fmt-check:
     @echo "Checking formatting..."
-    # TODO: Replace with your format check
+    # PENDING: Replace with your format check
     # Examples:
     #   cargo fmt --check
     #   mix format --check-formatted
@@ -834,7 +834,7 @@ fmt-check:
 # Run linter
 lint:
     @echo "Linting source files..."
-    # TODO: Replace with your linter
+    # PENDING: Replace with your linter
     # Examples:
     #   cargo clippy -- -D warnings
     #   mix credo --strict
@@ -846,18 +846,18 @@ lint:
 
 # Run the application
 run *args: build
-    # TODO: Replace with your run command
+    # PENDING: Replace with your run command
     echo "Run not configured yet"
 
 # Run with verbose output
 run-verbose *args: build
-    # TODO: Replace with verbose run command
+    # PENDING: Replace with verbose run command
     echo "Run not configured yet"
 
 # Install to user path
 install: build-release
     @echo "Installing affinescript-vite..."
-    # TODO: Replace with your install command
+    # PENDING: Replace with your install command
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # DEPENDENCIES
@@ -866,7 +866,7 @@ install: build-release
 # Install/check all dependencies
 deps:
     @echo "Checking dependencies..."
-    # TODO: Replace with your dependency check
+    # PENDING: Replace with your dependency check
     # Examples:
     #   cargo check
     #   mix deps.get
@@ -876,7 +876,7 @@ deps:
 # Audit dependencies for vulnerabilities
 deps-audit:
     @echo "Auditing for vulnerabilities..."
-    # TODO: Replace with your audit command
+    # PENDING: Replace with your audit command
     # Examples:
     #   cargo audit
     #   mix audit
@@ -920,7 +920,7 @@ cookbook:
             echo "" >> "$OUTPUT"
         fi
     done
-    echo "Generated: $OUTPUT"
+    echo "Generated: "$OUTPUT""
 
 # Generate man page
 man:
@@ -961,7 +961,7 @@ container-init:
     # Load RSR defaults if available
     DEFAULTS="${XDG_CONFIG_HOME:-$HOME/.config}/rsr/defaults"
     if [ -f "$DEFAULTS" ]; then
-        echo "Loading defaults from $DEFAULTS"
+        echo "Loading defaults from "$DEFAULTS""
         # shellcheck source=/dev/null
         source "$DEFAULTS"
         echo ""
@@ -978,9 +978,9 @@ container-init:
     REGISTRY="${_REGISTRY:-ghcr.io/${OWNER:-hyperpolymath}}"
 
     echo ""
-    echo "  Service: $SERVICE_NAME"
-    echo "  Port:    $PORT"
-    echo "  Registry: $REGISTRY"
+    echo "  Service: "$SERVICE_NAME""
+    echo "  Port:    "$PORT""
+    echo "  Registry: "$REGISTRY""
     echo ""
     read -rp "Proceed? [Y/n] " CONFIRM
     [[ "${CONFIRM:-Y}" =~ ^[Nn] ]] && echo "Aborted." && exit 0
@@ -989,8 +989,8 @@ container-init:
     echo "Replacing container placeholders..."
 
     # Brace tokens as variables (hex escapes avoid just interpolation)
-    LB=$(printf '\x7b\x7b')
-    RB=$(printf '\x7d\x7d')
+    LB="{{"
+    RB="}}"
 
     SED_ARGS=(
         -e "s|${LB}SERVICE_NAME${RB}|${SERVICE_NAME}|g"
@@ -1140,13 +1140,13 @@ validate-rsr:
     for f in .machine_readable/STATE.a2ml .machine_readable/META.a2ml .machine_readable/ECOSYSTEM.a2ml .machine_readable/anchors/ANCHOR.a2ml .machine_readable/policies/MAINTENANCE-AXES.a2ml .machine_readable/policies/MAINTENANCE-CHECKLIST.a2ml .machine_readable/policies/SOFTWARE-DEVELOPMENT-APPROACH.a2ml; do
         [ -f "$f" ] || MISSING="$MISSING $f"
     done
-    for f in licensing/exhibits/EXHIBIT-A-ETHICAL-USE.txt licensing/exhibits/EXHIBIT-B-QUANTUM-SAFE.txt licensing/texts/PMPL-1.0-or-later.txt; do
+    for f in docs/legal/EXHIBIT-A-ETHICAL-USE.txt docs/legal/EXHIBIT-B-QUANTUM-SAFE.txt LICENSE; do
         [ -f "$f" ] || MISSING="$MISSING $f"
     done
     for f in src/interface/abi src/interface/ffi src/interface/generated; do
         [ -d "$f" ] || MISSING="$MISSING $f"
     done
-    for f in docs/maintenance/MAINTENANCE-CHECKLIST.adoc docs/practice/SOFTWARE-DEVELOPMENT-APPROACH.adoc; do
+    for f in docs/governance/MAINTENANCE-CHECKLIST.adoc docs/governance/SOFTWARE-DEVELOPMENT-APPROACH.adoc; do
         [ -f "$f" ] || MISSING="$MISSING $f"
     done
     if [ -f ".machine_readable/META.a2ml" ]; then
@@ -1160,8 +1160,8 @@ validate-rsr:
         grep -q 'effects-evidence = "benchmark execution/results and maintainer status dialogue/review"' .machine_readable/META.a2ml || MISSING="$MISSING META.a2ml:effects-evidence"
         grep -q 'compliance-tooling = "panic-attack"' .machine_readable/policies/MAINTENANCE-AXES.a2ml || MISSING="$MISSING MAINTENANCE-AXES.a2ml:compliance-tooling"
         grep -q 'effects-tooling = "ecological checking with sustainabot guidance"' .machine_readable/policies/MAINTENANCE-AXES.a2ml || MISSING="$MISSING MAINTENANCE-AXES.a2ml:effects-tooling"
-        grep -q 'source-human = "docs/maintenance/MAINTENANCE-CHECKLIST.adoc"' .machine_readable/policies/MAINTENANCE-CHECKLIST.a2ml || MISSING="$MISSING MAINTENANCE-CHECKLIST.a2ml:source-human"
-        grep -q 'source-human = "docs/practice/SOFTWARE-DEVELOPMENT-APPROACH.adoc"' .machine_readable/policies/SOFTWARE-DEVELOPMENT-APPROACH.a2ml || MISSING="$MISSING SOFTWARE-DEVELOPMENT-APPROACH.a2ml:source-human"
+        grep -q 'source-human = "docs/governance/MAINTENANCE-CHECKLIST.adoc"' .machine_readable/policies/MAINTENANCE-CHECKLIST.a2ml || MISSING="$MISSING MAINTENANCE-CHECKLIST.a2ml:source-human"
+        grep -q 'source-human = "docs/governance/SOFTWARE-DEVELOPMENT-APPROACH.adoc"' .machine_readable/policies/SOFTWARE-DEVELOPMENT-APPROACH.a2ml || MISSING="$MISSING SOFTWARE-DEVELOPMENT-APPROACH.a2ml:source-human"
     fi
     if [ -n "$MISSING" ]; then
         echo "MISSING:$MISSING"
@@ -1189,17 +1189,17 @@ validate-ai-install:
 
     # Check guide exists
     if [ ! -f "$GUIDE" ]; then
-        echo "MISSING: $GUIDE (create from template: docs/AI_INSTALLATION_GUIDE.adoc)"
+        echo "MISSING: "$GUIDE"" (create from template: docs/AI_INSTALLATION_GUIDE.adoc)"
         ERRORS=$((ERRORS + 1))
     else
-        # Check for unfilled TODO markers
-        TODOS=$(grep -c '\[TODO-AI-INSTALL' "$GUIDE" 2>/dev/null || true)
-        if [ "$TODOS" -gt 0 ]; then
-            echo "INCOMPLETE: $GUIDE has $TODOS unfilled [TODO-AI-INSTALL] markers:"
-            grep -n '\[TODO-AI-INSTALL' "$GUIDE" | head -10
+        # Check for unfilled PENDING markers
+        PENDINGS=$(grep -c '\[PENDING-AI-INSTALL' "$GUIDE" 2>/dev/null || true)
+        if [ "$PENDINGS" -gt 0 ]; then
+            echo "INCOMPLETE: "$GUIDE"" has $PENDINGS unfilled [PENDING-AI-INSTALL] markers:"
+            grep -n '\[PENDING-AI-INSTALL' "$GUIDE" | head -10
             ERRORS=$((ERRORS + 1))
         else
-            echo "$GUIDE: complete (no TODO markers)"
+            echo "$GUIDE: complete (no PENDING markers)"
         fi
 
         # Check AI implementation section exists
@@ -1228,10 +1228,10 @@ validate-ai-install:
             ERRORS=$((ERRORS + 1))
         fi
 
-        # Check README for unfilled TODO markers
-        README_TODOS=$(grep -c '\[TODO-AI-INSTALL' "$README" 2>/dev/null || true)
-        if [ "$README_TODOS" -gt 0 ]; then
-            echo "INCOMPLETE: $README has $README_TODOS unfilled [TODO-AI-INSTALL] markers"
+        # Check README for unfilled PENDING markers
+        README_PENDINGS=$(grep -c '\[PENDING-AI-INSTALL' "$README" 2>/dev/null || true)
+        if [ "$README_PENDINGS" -gt 0 ]; then
+            echo "INCOMPLETE: $README has $README_PENDINGS unfilled [PENDING-AI-INSTALL] markers"
             ERRORS=$((ERRORS + 1))
         fi
     fi
@@ -1298,7 +1298,7 @@ automate task="all":
 
 # Build matrix: [debug|release] x [target] x [features]
 build-matrix mode="debug" target="" features="":
-    @echo "Build matrix: mode={{mode}} target={{target}} features={{features}}"
+    @echo "Build matrix: mode="{{mode}}" target="{{target}}" features="{{features}}""
 
 # Test matrix: [unit|integration|e2e|all] x [verbosity] x [parallel]
 test-matrix suite="unit" verbosity="normal" parallel="true":
@@ -1364,11 +1364,11 @@ release-tag version:
 
 # Count lines of code
 loc:
-    @find . \( -name "*.rs" -o -name "*.ex" -o -name "*.exs" -o -name "*.res" -o -name "*.gleam" -o -name "*.zig" -o -name "*.idr" -o -name "*.hs" -o -name "*.ncl" -o -name "*.scm" -o -name "*.adb" -o -name "*.ads" \) -not -path './target/*' -not -path './_build/*' 2>/dev/null | xargs wc -l 2>/dev/null | tail -1 || echo "0"
+    @find . \( -name "*.rs" -o -name "*.ex" -o -name "*.exs" -o -name "*.res" -o -name "*.gleam" -o -name "*.zig" -o -name "*.idr" -o -name "*.hs" -o -name "*.ncl" -o -name "*.scm" -o -name "*.adb" -o -name "*.ads" \) -not -path './target/*' -not -path './_build/*' 2>/dev/null | xargs -r wc -l 2>/dev/null | tail -1 || echo "0"
 
-# Show TODO comments
+# Show PENDING comments
 todos:
-    @grep -rn "TODO\|FIXME\|HACK\|XXX" --include="*.rs" --include="*.ex" --include="*.res" --include="*.gleam" --include="*.zig" --include="*.idr" --include="*.hs" . 2>/dev/null || echo "No TODOs"
+    @grep -rn "PENDING\|FIXME\|HACK\|XXX" --include="*.rs" --include="*.ex" --include="*.res" --include="*.gleam" --include="*.zig" --include="*.idr" --include="*.hs" . 2>/dev/null || echo "No PENDINGs"
 
 # Open in editor
 edit:
@@ -1437,8 +1437,8 @@ proof-check-idris2:
         exit 0
     fi
     ERRORS=0
-    for f in $(find verification/proofs/idris2 -name '*.idr' 2>/dev/null); do
-        echo -n "  Checking $f ... "
+    for f in "$(find verification/proofs/idris2 -name '*.idr' 2>/dev/null)"; do
+        echo -n "  Checking "$f" ... "
         if idris2 --check "$f" 2>/dev/null; then
             echo "OK"
         else
@@ -1447,7 +1447,7 @@ proof-check-idris2:
         fi
     done
     if [ "$ERRORS" -gt 0 ]; then
-        echo "FAIL: $ERRORS Idris2 proof(s) failed"
+        echo "FAIL: "$ERRORS" Idris2" proof(s) failed"
         exit 1
     fi
     echo "PASS: All Idris2 proofs verified"
@@ -1462,8 +1462,8 @@ proof-check-lean4:
         exit 0
     fi
     ERRORS=0
-    for f in $(find verification/proofs/lean4 -name '*.lean' 2>/dev/null); do
-        echo -n "  Checking $f ... "
+    for f in "$(find verification/proofs/lean4 -name '*.lean' 2>/dev/null)"; do
+        echo -n "  Checking "$f" ... "
         if lean "$f" 2>/dev/null; then
             echo "OK"
         else
@@ -1472,7 +1472,7 @@ proof-check-lean4:
         fi
     done
     if [ "$ERRORS" -gt 0 ]; then
-        echo "FAIL: $ERRORS Lean4 proof(s) failed"
+        echo "FAIL: "$ERRORS" Lean4 proof(s) failed"
         exit 1
     fi
     echo "PASS: All Lean4 proofs verified"
@@ -1487,8 +1487,8 @@ proof-check-agda:
         exit 0
     fi
     ERRORS=0
-    for f in $(find verification/proofs/agda -name '*.agda' 2>/dev/null); do
-        echo -n "  Checking $f ... "
+    for f in "$(find verification/proofs/agda -name '*.agda' 2>/dev/null)"; do
+        echo -n "  Checking "$f" ... "
         if agda --safe "$f" 2>/dev/null; then
             echo "OK"
         else
@@ -1497,7 +1497,7 @@ proof-check-agda:
         fi
     done
     if [ "$ERRORS" -gt 0 ]; then
-        echo "FAIL: $ERRORS Agda proof(s) failed"
+        echo "FAIL: "$ERRORS" Agda proof(s) failed"
         exit 1
     fi
     echo "PASS: All Agda proofs verified"
@@ -1512,8 +1512,8 @@ proof-check-coq:
         exit 0
     fi
     ERRORS=0
-    for f in $(find verification/proofs/coq -name '*.v' 2>/dev/null); do
-        echo -n "  Checking $f ... "
+    for f in "$(find verification/proofs/coq -name '*.v' 2>/dev/null)"; do
+        echo -n "  Checking "$f" ... "
         if coqc "$f" 2>/dev/null; then
             echo "OK"
         else
@@ -1522,7 +1522,7 @@ proof-check-coq:
         fi
     done
     if [ "$ERRORS" -gt 0 ]; then
-        echo "FAIL: $ERRORS Coq proof(s) failed"
+        echo "FAIL: "$ERRORS" Coq proof(s) failed"
         exit 1
     fi
     echo "PASS: All Coq proofs verified"
@@ -1534,10 +1534,10 @@ proof-scan-dangerous:
     echo "=== Scanning for dangerous patterns in proofs ==="
     DANGEROUS=0
     PATTERNS="believe_me|assert_total|postulate|sorry|Admitted|unsafeCoerce|Obj\.magic"
-    for f in $(find verification/proofs -name '*.idr' -o -name '*.lean' -o -name '*.agda' -o -name '*.v' 2>/dev/null); do
+    for f in "$(find verification/proofs -name '*.idr' -o -name '*.lean' -o -name '*.agda' -o -name '*.v' 2>/dev/null)"; do
         MATCHES=$(grep -nE "$PATTERNS" "$f" 2>/dev/null || true)
         if [ -n "$MATCHES" ]; then
-            echo "  DANGEROUS: $f"
+            echo "  DANGEROUS: "$f""
             echo "$MATCHES" | sed 's/^/    /'
             DANGEROUS=$((DANGEROUS + 1))
         fi

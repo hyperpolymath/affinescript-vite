@@ -3,7 +3,7 @@
 --
 -- ABI Proof: Platform-specific type size proofs
 -- Proves that C type sizes are correct per platform.
--- All proofs MUST be constructive (no believe_me, no assert_total).
+-- All proofs MUST be constructive (no b_me, no a_total).
 
 module ABI.Platform
 

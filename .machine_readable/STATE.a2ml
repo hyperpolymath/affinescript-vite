@@ -3,11 +3,11 @@
 (state
   (metadata
     (version "1.0.1")
-    (project "rsr-template-repo")
-    (last-updated "2026-04-04"))
+    (project "affinescript-vite")
+    (last-updated "2026-04-06"))
   (project-context
-    (description "RSR Standard Repository Template — baseline for all hyperpolymath projects")
-    (primary-language "Idris2 (ABI) + Zig (FFI)")
+    (description "Vite plugin for AffineScript — enabling verified frontend development")
+    (primary-language "JavaScript + AffineScript (WASM)")
     (status "testing-complete"))
   (current-position
     (phase "testing")

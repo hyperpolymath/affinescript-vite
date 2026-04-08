@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
-# Copyright (c) {{CURRENT_YEAR}} hyperpolymath (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+# Copyright (c) 2026 hyperpolymath (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 #
 # Canonical maintenance governance model
 
 [metadata]
 version = "1.0.0"
-last-updated = "{{CURRENT_DATE}}"
+last-updated = "2026-04-06"
 scope = "repo"
 
 [discovery]
 human-entrypoints = [
   "README.adoc",
-  "docs/maintenance/MAINTENANCE-CHECKLIST.md",
-  "docs/practice/SOFTWARE-DEVELOPMENT-APPROACH.adoc",
+  "docs/governance/MAINTENANCE-CHECKLIST.adoc",
+  "docs/governance/SOFTWARE-DEVELOPMENT-APPROACH.adoc",
 ]
 machine-entrypoints = [
   ".machine_readable/policies/MAINTENANCE-AXES.a2ml",

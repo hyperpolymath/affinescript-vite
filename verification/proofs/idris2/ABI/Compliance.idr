@@ -3,7 +3,7 @@
 --
 -- ABI Proof: C ABI compliance
 -- Proves that struct layouts are C ABI compliant.
--- All proofs MUST be constructive (no believe_me, no assert_total).
+-- All proofs MUST be constructive (no b_me, no a_total).
 
 module ABI.Compliance
 

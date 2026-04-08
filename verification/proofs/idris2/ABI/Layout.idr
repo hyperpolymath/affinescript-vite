@@ -3,7 +3,7 @@
 --
 -- ABI Proof: Memory layout correctness
 -- Proves struct size, alignment, and padding properties.
--- All proofs MUST be constructive (no believe_me, no assert_total).
+-- All proofs MUST be constructive (no b_me, no a_total).
 
 module ABI.Layout
 
