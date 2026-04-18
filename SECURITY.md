@@ -3,13 +3,11 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please report it responsibly:
+**Email:** j.d.a.jewell@open.ac.uk
 
-- **Email:** j.d.a.jewell@open.ac.uk
-- **Do NOT** open a public issue for security vulnerabilities
+**Response timeline:**
+- Acknowledgement within 48 hours
+- Initial assessment within 7 days
+- Fix or mitigation within 90 days
 
-We will acknowledge receipt within 48 hours and provide a detailed response within 7 days.
-
-## Supported Versions
-
-Only the latest release on the `main` branch is supported with security updates.
+**Safe harbour:** We will not pursue legal action against security researchers who follow responsible disclosure.
