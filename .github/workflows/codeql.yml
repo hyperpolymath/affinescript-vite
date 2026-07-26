@@ -10,6 +10,7 @@ on:
     - cron: '0 6 1 * *'   # monthly 1st 06:00 UTC
 
 permissions:
+  actions: read
   contents: read
 
 jobs:
