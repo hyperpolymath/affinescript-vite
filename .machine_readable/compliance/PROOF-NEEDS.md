@@ -1,4 +1,4 @@
-# Proof Requirements — {{PROJECT}}
+# Proof Requirements — ROAD_SKATE
 <!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
 <!-- Template: rsr-template-repo/PROOF-NEEDS.md -->
 <!-- Authoritative master list: ~/Desktop/PROOF-REQUIREMENTS-MASTER.md -->
