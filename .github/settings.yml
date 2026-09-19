@@ -7,13 +7,13 @@
 # applied by the probot/settings app when changes are pushed to the default
 # branch. Install the app at: https://github.com/apps/settings
 #
-# Template file — replace affinescript-vite and {{DESCRIPTION}} with actual values.
+# Template file — replace affinescript-vite and Retro driving game written in AffineScript. Test Drive III: The Passion-inspired — perspective road rendering + centripetal-force steering. Prototype. with actual values.
 
 # ─── Repository Settings ───────────────────────────────────────────────────────
 
 repository:
   name: "affinescript-vite"
-  description: "{{DESCRIPTION}}"
+  description: "Retro driving game written in AffineScript. Test Drive III: The Passion-inspired — perspective road rendering + centripetal-force steering. Prototype."
   homepage: "https://github.com/hyperpolymath/affinescript-vite"
   private: false
   has_issues: true
