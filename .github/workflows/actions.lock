@@ -34,10 +34,7 @@ workflows:
     '.github/workflows/rhodibot.yml':
         - 'actions/checkout@v7.0.1'
     '.github/workflows/scorecard.yml': []
-    '.github/workflows/secret-scanner.yml':
-        - 'actions/checkout@v6.0.2'
-        - 'gitleaks/gitleaks-action@v2.3.9'
-        - 'trufflesecurity/trufflehog@v3.93.8'
+    '.github/workflows/secret-scanner.yml': []
     '.github/workflows/static-analysis-gate.yml':
         - 'actions/checkout@v6.0.2'
         - 'actions/download-artifact@v4.1.8'
