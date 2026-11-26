@@ -3,3 +3,29 @@
 # Prettier must not reformat them.
 package.json
 pnpm-lock.yaml
+# Files without a Prettier baseline (not yet formatted); remove entries as they are formatted.
+.devcontainer/devcontainer.json
+.github/CODE_OF_CONDUCT.md
+.github/CONTRIBUTING.md
+.github/label-classifier.json
+.github/pull_request_template.md
+.github/SECURITY.md
+.github/workflows/codeql.yml
+.github/workflows/dogfood-gate.yml
+.github/workflows/e2e.yml
+.github/workflows/hypatia-scan.yml
+.github/workflows/labels.yml
+.github/workflows/push-email-notify.yml
+.github/workflows/release.yml
+.github/workflows/rhodibot.yml
+.github/workflows/scorecard.yml
+.github/workflows/static-analysis-gate.yml
+.pre-commit-config.yaml
+docs/attribution/CITATION.cff
+game/index.html
+game/main.js
+reports/assemblyline-20260406231857.json
+src/affine-plugin-improved.js
+src/affine-plugin.js
+src/index.js
+vite.config.js
